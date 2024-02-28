@@ -5,4 +5,19 @@
     <string name="login">Login</string>
     <string name="phone">Phone\n</string>
     <string name="register">Register</string>
+    <string name="rescue">Rescue</string>
+    <string name="adopt">Adopt</string>
+    <string name="species">Species:</string>
+    <string name="age">Age:</string>
+    <string name="description">Description:</string>
+    <string name="image_url">Image URL:</string>
+    <string name="location">Location:</string>
+    <string name="user_id">User ID:</string>
+    <string name="submit">Submit</string>
+    <string name="photo">Photo</string>
+    <string name="placeholder">display the image here</string>
+    <string name="vet_evaluation">Vet Evaluation</string>
+    <string name="loving_dog">loving dog</string>
+    <string name="rescue_text">Save That suffering Animal</string>
+    <string name="adopt_text">Get a new friend today</string>
 </resources>

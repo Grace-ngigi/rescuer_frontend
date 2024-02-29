@@ -7,23 +7,33 @@ data class Rescue(
     val id: String,
     val species: String,
     val age: Int,
+    val gender: String,
+    val color: String,
     val vetEvaluation: String,
-    val imageString: String
+    val imageString: String,
+    val status: String
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()?: "",
         parcel.readString() ?: "",
         parcel.readInt(),
+        parcel.readString() ?:"",
+    parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: ""
+
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(species)
         parcel.writeInt(age)
+        parcel.writeString(gender)
+        parcel.writeString(color)
         parcel.writeString(vetEvaluation)
         parcel.writeString(imageString)
+        parcel.writeString(status)
     }
 
     override fun describeContents(): Int {

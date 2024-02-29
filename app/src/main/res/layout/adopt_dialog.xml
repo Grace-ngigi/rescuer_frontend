@@ -6,71 +6,26 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/imageAnimal"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:contentDescription="@string/placeholder"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
-        android:id="@+id/textSpecies"
-        android:layout_width="0dp"
+        android:id="@+id/textWords"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/species"
-        android:textSize="18sp"
+        android:layout_margin="8dp"
         android:padding="5dp"
-        app:layout_constraintStart_toEndOf="@id/imageAnimal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp" />
-
-    <TextView
-        android:id="@+id/textAge"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/age"
         android:textSize="18sp"
-        android:padding="5dp"
-        app:layout_constraintStart_toEndOf="@id/imageAnimal"
-        app:layout_constraintTop_toBottomOf="@id/textSpecies"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp" />
-
-    <TextView
-        android:id="@+id/textVetEvaluation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/vet_evaluation"
-        android:textSize="18sp"
-        android:padding="5dp"
-        app:layout_constraintStart_toEndOf="@id/imageAnimal"
-        app:layout_constraintTop_toBottomOf="@id/textAge"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp" />
-
-    <Button
-        android:id="@+id/btnAdopt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/adopt"
-        android:background="@drawable/button_style"
-        app:layout_constraintStart_toEndOf="@id/imageAnimal"
-        app:layout_constraintTop_toBottomOf="@id/textVetEvaluation"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

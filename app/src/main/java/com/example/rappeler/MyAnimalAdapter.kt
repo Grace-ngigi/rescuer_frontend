@@ -1,5 +1,6 @@
 package com.example.rappeler
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
@@ -10,16 +11,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class AdoptAdapter(private val rescues: List<Rescue>, private val listener: OnItemClickListener) :
-    RecyclerView.Adapter<AdoptAdapter.RescueViewHolder>() {
-    interface OnItemClickListener {
-        fun onItemClick(rescue: Rescue)
-    }
+class MyAnimalAdapter(private var rescues: List<Rescue>) :
+RecyclerView.Adapter<MyAnimalAdapter.RescueViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RescueViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.rescue_item, parent, false)
         return RescueViewHolder(view)
     }
+
     override fun onBindViewHolder(holder: RescueViewHolder, position: Int) {
         val animal = rescues[position]
         holder.species.text = buildString {
@@ -42,6 +42,12 @@ class AdoptAdapter(private val rescues: List<Rescue>, private val listener: OnIt
             append("Vet Remarks: ")
             append(animal.vetEvaluation)
         }
+        holder.status.visibility = View.VISIBLE
+        holder.status.text = buildString {
+            append("Status: ")
+            append(animal.status)
+        }
+        holder.adopt.visibility = View.GONE
 
         val decodedBytes = Base64.decode(animal.imageString, Base64.DEFAULT)
         val decodedBitmap = decodedBytes?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
@@ -49,24 +55,25 @@ class AdoptAdapter(private val rescues: List<Rescue>, private val listener: OnIt
         Glide.with(holder.itemView.context)
             .load(decodedBitmap)
             .placeholder(R.drawable.ic_launcher_foreground) // Placeholder image while loading
-//            .error(R.drawable.error_image) // Error image if loading fails
             .into(holder.image)
-
-        holder.adopt.setOnClickListener {
-            listener.onItemClick(animal)
-        }
     }
 
     override fun getItemCount(): Int {
         return rescues.size
     }
+
     inner class RescueViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val species: TextView = itemView.findViewById(R.id.textSpecies)
         val age: TextView = itemView.findViewById(R.id.textAge)
         val image: ImageView = itemView.findViewById(R.id.imageAnimal)
         val gender: TextView = itemView.findViewById(R.id.textGender)
         val color: TextView = itemView.findViewById(R.id.textColor)
-        val adopt: TextView = itemView.findViewById(R.id.tvAdopt)
         val vetRemarks: TextView = itemView.findViewById(R.id.vetRemarks)
+        val status : TextView = itemView.findViewById(R.id.status)
+        val adopt: TextView = itemView.findViewById(R.id.tvAdopt)
+    }
+    fun updateList(newList: List<Rescue>) {
+        rescues = newList
+        notifyDataSetChanged()
     }
 }

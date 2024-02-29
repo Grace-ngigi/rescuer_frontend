@@ -32,6 +32,8 @@ import java.io.ByteArrayOutputStream
 class RescueActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRescueBinding
     private lateinit var imageUrl: String
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var token : String
 
 
     private val CAMERA_REQUEST_CODE = 1001
@@ -41,22 +43,22 @@ class RescueActivity : AppCompatActivity() {
         binding = ActivityRescueBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sharedPreferences: SharedPreferences =
-            getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val token: String? = sharedPreferences.getString("access_token", null)
-        if (token != null) {
-            binding.btnSubmit.setOnClickListener {
-                submitRescue(token)
+        setSupportActionBar(binding.tbRescue)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "RESCUE"
+        binding.tbRescue.setNavigationOnClickListener { onBackPressed() }
+
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        token = sharedPreferences.getString("access_token", null).toString()
+        binding.btnSubmit.setOnClickListener {
+            submitRescue(token)
+        }
+        binding.btnPhoto.setOnClickListener {
+            if (checkCameraPermission()) {
+                dispatchTakePictureIntent()
+            } else {
+                requestPermission()
             }
-            binding.btnPhoto.setOnClickListener {
-                if (checkCameraPermission()) {
-                    dispatchTakePictureIntent()
-                } else {
-                    requestPermission()
-                }
-            }
-        } else {
-            redirectToLogin()
         }
     }
 
@@ -86,7 +88,6 @@ class RescueActivity : AppCompatActivity() {
         return true
     }
 
-    // Function to submit rescue data
     private fun submitRescue(savedToken: String) {
         if (!validateInput()) {
             return

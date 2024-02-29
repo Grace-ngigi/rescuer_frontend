@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdoptActivity">
+    tools:context=".MyAnimalActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbAdopt"
+        android:id="@+id/tbAnimal"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/CustomToolBarStyle"
@@ -31,13 +31,12 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRescues"
-        android:visibility="visible"
+        android:id="@+id/rvAnimal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tbAdopt" />
+        app:layout_constraintTop_toBottomOf="@id/tbAnimal" />
     <ProgressBar
         android:id="@+id/progressBar"
         android:visibility="gone"
@@ -48,5 +47,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

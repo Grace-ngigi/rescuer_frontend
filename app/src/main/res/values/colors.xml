@@ -4,7 +4,7 @@
     <color name="color_primary_variant">#FFB140</color>
     <color name="color_accent">#FFB140</color>
     <color name="color_accent_variant">#EEFC57</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="grey">#FAF6F5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

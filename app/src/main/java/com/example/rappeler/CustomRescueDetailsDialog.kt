@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Base64
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -25,43 +26,20 @@ class CustomRescueDetailsDialog(
     private val rescue: Rescue,
     private val token: String
 ) : Dialog(context) {
-
+private lateinit var text: TextView
+private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.adopt_dialog)
-
-        val textSpecies = findViewById<TextView>(R.id.textSpecies)
-        val textAge = findViewById<TextView>(R.id.textAge)
-        val textVetEvaluation = findViewById<TextView>(R.id.textVetEvaluation)
-        val image = findViewById<ImageView>(R.id.imageAnimal)
-        val btnAdopt = findViewById<Button>(R.id.btnAdopt)
-
-        println("Token sent inside the dialog: $token")
-
-        textSpecies.text = rescue.species
-        textAge.text = rescue.age.toString()
-        textVetEvaluation.text = rescue.vetEvaluation
-        val decodedBytes = Base64.decode(rescue.imageString, Base64.DEFAULT)
-        val decodedBitmap = decodedBytes?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
-
-        Glide.with(context)
-            .load(decodedBitmap)
-            .placeholder(R.drawable.ic_launcher_foreground)
-//            .error(R.drawable.error_image) // Error image if loading fails
-            .into(image)
-
-        btnAdopt.setOnClickListener {
+        text = findViewById<TextView>(R.id.textWords)
+        progressBar = findViewById(R.id.progressBar)
             updateStatus(rescue)
-            dismiss()
-        }
     }
 
     private fun updateStatus(rescue: Rescue) {
+        progressBar.visibility = ProgressBar.VISIBLE
         val url = BuildConfig.URL + "/adopt?rescue_id=${rescue.id}"
         val client = OkHttpClient()
-//        val requestBody = JSONObject().apply {
-//            put("rescue_id", rescue.id)
-//        }
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/json")
@@ -78,6 +56,7 @@ class CustomRescueDetailsDialog(
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
                 (context as? AdoptActivity)?.runOnUiThread {
+                    progressBar.visibility = ProgressBar.GONE
                     println(e.message)
                     Toast.makeText(
                         context,
@@ -85,7 +64,6 @@ class CustomRescueDetailsDialog(
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                return
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -96,6 +74,7 @@ class CustomRescueDetailsDialog(
                         val errorMessage = jsonResponse?.getString("message")
                         println("Error Message: $errorMessage")
                         (context as? AdoptActivity)?.runOnUiThread {
+                            progressBar.visibility = ProgressBar.GONE
                             Toast.makeText(
                                 context,
                                 errorMessage ?: "Unknown error occurred",
@@ -105,11 +84,12 @@ class CustomRescueDetailsDialog(
 
                     } else {
                         (context as? AdoptActivity)?.runOnUiThread {
-                            Toast.makeText(
-                                context,
-                                "Success: Please wait for a call for more Information",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            progressBar.visibility = ProgressBar.GONE
+                            text.text = buildString {
+                                append("Thank you for adopting ")
+                                append(rescue.species)
+                                append(". Please visit your profile to follow up on your adoption process")
+                            }
                         }
                     }
                 }

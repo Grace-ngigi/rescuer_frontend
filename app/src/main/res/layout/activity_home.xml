@@ -8,8 +8,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:src="@drawable/undraw_friends_r511__1_"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +19,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="233dp"
+        android:layout_height="190dp"
         android:orientation="vertical"
         android:layout_marginTop="3dp"
         android:background="@drawable/back_style"
@@ -42,7 +42,7 @@
             android:id="@+id/btn_rescue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/button_style_white"
             android:text="@string/rescue"
             android:padding="10dp"
@@ -54,10 +54,24 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_rescue" />
 
         <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/tv_rescue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="@string/rescue_text"
             android:textAlignment="center"
@@ -65,12 +79,12 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="232dp"
+        android:layout_height="180dp"
         android:background="@drawable/back_style_white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +95,7 @@
             android:id="@+id/tv_adopt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="@string/adopt_text"
             android:textAlignment="center"
@@ -89,14 +103,13 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/btnAdopt"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/btnAdopt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="50dp"
             android:background="@drawable/button_style"
             android:padding="10dp"
             android:textSize="22sp"

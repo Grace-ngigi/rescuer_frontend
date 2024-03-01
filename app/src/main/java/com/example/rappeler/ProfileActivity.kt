@@ -53,7 +53,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun editProfile() {
-        TODO("Not yet implemented")
+        val customDialog = CustomRescueDetailsDialog(this, token)
+        customDialog.show()
     }
 
     private fun logout() {

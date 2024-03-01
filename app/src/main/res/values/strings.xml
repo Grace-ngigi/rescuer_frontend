@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">rappeler</string>
+    <string name="app_name">PetSafeHaven</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
@@ -19,7 +19,7 @@
     <string name="vet_evaluation">Vet Evaluation</string>
     <string name="loving_dog">loving dog</string>
     <string name="rescue_text">Save That suffering Animal</string>
-    <string name="adopt_text">Get a new friend today</string>
+    <string name="adopt_text">Get a new furry friend today</string>
     <string name="title_activity_my_animal">MyAnimalActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

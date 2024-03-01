@@ -2,52 +2,53 @@ package com.example.rappeler
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Base64
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
-import com.bumptech.glide.Glide
-import okhttp3.Call
-import okhttp3.Callback
+import com.example.rappeler.databinding.AdoptDialogBinding
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Response
-import okio.IOException
 import org.json.JSONObject
+import java.io.IOException
 
 class CustomRescueDetailsDialog(
     context: Context,
-    private val rescue: Rescue,
     private val token: String
 ) : Dialog(context) {
-private lateinit var text: TextView
-private lateinit var progressBar: ProgressBar
+    private lateinit var binding: AdoptDialogBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.adopt_dialog)
-        text = findViewById<TextView>(R.id.textWords)
-        progressBar = findViewById(R.id.progressBar)
-            updateStatus(rescue)
+        binding = AdoptDialogBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val btnSubmit = binding.btnSubmit
+        btnSubmit.setOnClickListener {
+            val email = binding.editTextEmail.text.toString().trim()
+            val phone = binding.editTextPhone.text.toString().trim()
+            val password = binding.editTextPassword.text.toString().trim()
+            updateProfile(email, phone, password)
+        }
     }
 
-    private fun updateStatus(rescue: Rescue) {
-        progressBar.visibility = ProgressBar.VISIBLE
-        val url = BuildConfig.URL + "/adopt?rescue_id=${rescue.id}"
+    private fun updateProfile(email: String, phone: String, password: String) {
+        println("Pretending to update users profile")
+        binding.progressBar.visibility = ProgressBar.VISIBLE
+        val url = BuildConfig.URL + "/user"
         val client = OkHttpClient()
+        val requestBody = JSONObject().apply {
+            put("email", email)
+            put("phone", phone)
+            put("password", password)
+        }
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("Authorization", "Bearer $token")
-            .post(
+            .put(
                 RequestBody.create(
                     "application/json".toMediaTypeOrNull(),
-                    "{}"
+                    requestBody.toString()
                 )
             )
             .build()
@@ -55,15 +56,7 @@ private lateinit var progressBar: ProgressBar
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
-                (context as? AdoptActivity)?.runOnUiThread {
-                    progressBar.visibility = ProgressBar.GONE
-                    println(e.message)
-                    Toast.makeText(
-                        context,
-                        "Failed to create adopt: ${e.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                dismissDialogWithError("Failed to update profile: ${e.message}")
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -72,28 +65,30 @@ private lateinit var progressBar: ProgressBar
                     if (!response.isSuccessful) {
                         val jsonResponse = responseBody?.let { JSONObject(it) }
                         val errorMessage = jsonResponse?.getString("message")
-                        println("Error Message: $errorMessage")
+                        dismissDialogWithError(errorMessage ?: "Unknown error occurred")
+                    } else {
+                        dismiss()
                         (context as? AdoptActivity)?.runOnUiThread {
-                            progressBar.visibility = ProgressBar.GONE
                             Toast.makeText(
                                 context,
-                                errorMessage ?: "Unknown error occurred",
+                                "Profile updated successfully",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }
-
-                    } else {
-                        (context as? AdoptActivity)?.runOnUiThread {
-                            progressBar.visibility = ProgressBar.GONE
-                            text.text = buildString {
-                                append("Thank you for adopting ")
-                                append(rescue.species)
-                                append(". Please visit your profile to follow up on your adoption process")
-                            }
                         }
                     }
                 }
             }
         })
+    }
+
+    private fun dismissDialogWithError(errorMessage: String) {
+        (context as? AdoptActivity)?.runOnUiThread {
+            binding.progressBar.visibility = ProgressBar.GONE
+            Toast.makeText(
+                context,
+                errorMessage,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }
